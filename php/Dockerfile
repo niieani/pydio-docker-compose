@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-RUN mkdir /php && chown www-data:www-data /php && chmod 660 /php
+RUN mkdir /php && chown www-data:www-data /php && chmod 770 /php
 
 # echo listen = [::]:9000 \
 RUN { \
@@ -36,12 +36,12 @@ RUN { \
 # Pydio
 ARG PYDIO_VERSION=6.2.2
 WORKDIR /srv
-RUN wget http://downloads.sourceforge.net/project/ajaxplorer/pydio/stable-channel/${PYDIO_VERSION}/pydio-core-${PYDIO_VERSION}.zip && \
-    unzip pydio-core-${PYDIO_VERSION}.zip && \
-    mv pydio-core-${PYDIO_VERSION} www && \
-    chown -R www-data:www-data /srv/www && \
+RUN wget http://downloads.sourceforge.net/project/ajaxplorer/pydio/stable-channel/${PYDIO_VERSION}/pydio-core-${PYDIO_VERSION}.tar.gz && \
+    tar -zxf pydio-core-${PYDIO_VERSION}.tar.gz
+RUN mv pydio-core-${PYDIO_VERSION} www && \
     mv /srv/www/data /pydio-data && \
-    ln -s /pydio-data /srv/www/data
+    ln -s /pydio-data /srv/www/data && \
+    chown -R www-data:www-data /srv/www /pydio-data
 
 VOLUME /pydio-data
 
