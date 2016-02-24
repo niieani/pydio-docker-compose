@@ -18,7 +18,7 @@ php:
   build: ./php
   volumes:
     - /php
-    - /srv/htdocs
+    - /srv/www
   volumes_from:
     - mysql-socket
     - pydio-data
@@ -34,14 +34,14 @@ mysql:
   expose: 
     - '3306'
   volumes_from:
-    - mysql-socket
-  volumes:
-    - ./persistent/mysql:/var/lib/mysql
-
-mysql-socket:
-  image: busybox
+    - mysql-data
   volumes:
     - /run/mysqld
+
+mysql-data:
+  image: busybox
+  volumes:
+    - ./persistent/mysql:/var/lib/mysql
 
 pydio-data:
   image: busybox
