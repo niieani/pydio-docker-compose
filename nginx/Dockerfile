@@ -12,5 +12,8 @@ ADD start.sh /srv/config/start.sh
 ADD reload.sh /srv/config/reload.sh
 RUN chmod +x /srv/config/start.sh /srv/config/reload.sh
 
+RUN usermod -a -G www-data nginx
+# RUN sed -i 's/nginx;/www-data/g' /etc/nginx/;
+
 ENTRYPOINT ["/bin/bash", "/srv/config/start.sh"]
 CMD ["nginx", "-g", "daemon off;"]
