@@ -5,10 +5,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
-        php-pear fontconfig-config fonts-dejavu-core unzip wget \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt \
+        fontconfig-config fonts-dejavu-core wget locales \
+    && docker-php-ext-install -j$(nproc) iconv mcrypt exif \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
+
+# php-pear #
 
 RUN mkdir /php && chown www-data:www-data /php && chmod 770 /php
 
@@ -28,8 +30,11 @@ RUN { \
       echo rlimit_files = 10240 ;\
       echo php_admin_flag[output_buffering] = off ;\
       echo php_admin_flag[cgi.fix_pathinfo] = off ;\
+      echo php_admin_value[output_buffering] = 0 ;\
+      echo php_admin_value[cgi.fix_pathinfo] = 0 ;\
       echo php_admin_value[upload_max_filesize] = 2G ;\
       echo php_admin_value[post_max_size] = 2G ;\
+      echo php_admin_value[session.save_path] = /tmp ;\
     } | tee /usr/local/etc/php-fpm.d/zz-docker.conf
 
 ###########################
@@ -49,6 +54,12 @@ RUN mv pydio-core-${PYDIO_VERSION} www && \
     chown -R www-data:www-data /srv/www /pydio-data
 
 VOLUME /pydio-data
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+RUN locale-gen en_US.UTF-8 && dpkg-reconfigure locales
 
 # NOTE: make sure to chown your data folder to 33:33
 
