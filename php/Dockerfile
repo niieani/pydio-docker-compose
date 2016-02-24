@@ -14,25 +14,25 @@ RUN mkdir /php && chown www-data:www-data /php && chmod 660 /php
 
 # echo listen = [::]:9000 \
 RUN { \
-      echo [global] \
-      echo daemonize = no \
-      echo \
-      echo [www] \
-      echo listen = /php/php.sock \
-      echo listen.owner = www-data \
-      echo listen.group = www-data \
-      echo listen.mode = 0660 \
-      echo slowlog = /proc/self/fd/2 \
-      echo request_slowlog_timeout = 10s \
-      echo security.limit_extensions = .php \
-      echo rlimit_files = 10240 \
-      echo php_admin_flag[output_buffering] = off \
-      echo php_admin_flag[cgi.fix_pathinfo] = off \
-      echo php_admin_value[upload_max_filesize] = 2G \
-      echo php_admin_value[post_max_size] = 2G \
-      echo php_admin_value[pdo_mysql.default_socket] = /run/mysqld/mysqld.sock \
-      echo php_admin_value[mysql.default_socket] = /run/mysqld/mysqld.sock \
-      echo php_admin_value[mysqli.default_socket] = /run/mysqld/mysqld.sock \
+      echo [global] ;\
+      echo daemonize = no ;\
+      echo ;\
+      echo [www] ;\
+      echo listen = /php/php.sock ;\
+      echo listen.owner = www-data ;\
+      echo listen.group = www-data ;\
+      echo listen.mode = 0660 ;\
+      echo slowlog = /proc/self/fd/2 ;\
+      echo request_slowlog_timeout = 10s ;\
+      echo security.limit_extensions = .php ;\
+      echo rlimit_files = 10240 ;\
+      echo php_admin_flag[output_buffering] = off ;\
+      echo php_admin_flag[cgi.fix_pathinfo] = off ;\
+      echo php_admin_value[upload_max_filesize] = 2G ;\
+      echo php_admin_value[post_max_size] = 2G ;\
+      echo php_admin_value[pdo_mysql.default_socket] = /run/mysqld/mysqld.sock ;\
+      echo php_admin_value[mysql.default_socket] = /run/mysqld/mysqld.sock ;\
+      echo php_admin_value[mysqli.default_socket] = /run/mysqld/mysqld.sock ;\
     } | tee /usr/local/etc/php-fpm.d/zz-docker.conf
 
 ###########################
