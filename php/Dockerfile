@@ -28,8 +28,6 @@ RUN { \
       echo request_slowlog_timeout = 10s ;\
       echo security.limit_extensions = .php ;\
       echo rlimit_files = 10240 ;\
-      echo php_admin_flag[output_buffering] = off ;\
-      echo php_admin_flag[cgi.fix_pathinfo] = off ;\
       echo php_admin_value[output_buffering] = 0 ;\
       echo php_admin_value[cgi.fix_pathinfo] = 0 ;\
       echo php_admin_value[upload_max_filesize] = 2G ;\
@@ -59,7 +57,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-RUN locale-gen en_US.UTF-8 && dpkg-reconfigure locales
+RUN locale-gen en_US.UTF-8 && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
 
 # NOTE: make sure to chown your data folder to 33:33
 
