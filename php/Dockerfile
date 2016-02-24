@@ -39,16 +39,21 @@ WORKDIR /srv
 RUN wget http://downloads.sourceforge.net/project/ajaxplorer/pydio/stable-channel/${PYDIO_VERSION}/pydio-core-${PYDIO_VERSION}.tar.gz && \
     tar -zxf pydio-core-${PYDIO_VERSION}.tar.gz
 RUN mv pydio-core-${PYDIO_VERSION} www && \
-    mv /srv/www/data /pydio-data && \
-    ln -s /pydio-data /srv/www/data && \
+    mkdir /pydio-data && \
+    mv /srv/www/data/files /pydio-data/files && \
+    mv /srv/www/data/personal /pydio-data/personal && \
+    mv /srv/www/data/logs /pydio-data/logs && \
+    ln -s /pydio-data/files /srv/www/data/files && \
+    ln -s /pydio-data/personal /srv/www/data/personal && \
+    ln -s /pydio-data/logs /srv/www/data/logs && \
     chown -R www-data:www-data /srv/www /pydio-data
 
 VOLUME /pydio-data
+
+# NOTE: make sure to chown your data folder to 33:33
 
 # RUN chmod -R 660 /srv/www
 # RUN chmod 777 /srv/www/pydio-core/data/files/
 # RUN chmod 777 /srv/www/pydio-core/data/personal/
 
 CMD php-fpm
-
-# "s/$(echo "$1" | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$(echo "$2" | sed -e 's/[\/&]/\\&/g')/g" "$3"
