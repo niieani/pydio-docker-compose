@@ -100,9 +100,6 @@ server {
   location ~ ^/api {
     rewrite ^ /rest.php last;
   }
-  location / {
-    rewrite ^/(dashboard|welcome|settings|ws-) /index.php last;
-  }
   
   location ~ ^/data/ { internal; }
   proxy_set_header X-Sendfile-Type X-Accel-Redirect;
@@ -114,6 +111,8 @@ server {
   client_max_body_size 2047m;
   
   location / {
+    rewrite ^/(dashboard|welcome|settings|ws-) /index.php last;
+    
     location ~ \.php$ {
       fastcgi_split_path_info ^(.+\.php)(/.+)$;
       # NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
