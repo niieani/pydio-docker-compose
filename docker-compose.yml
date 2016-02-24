@@ -1,0 +1,62 @@
+nginx:
+  container_name: nginx
+  build: ./nginx
+  environment: 
+    NGINX_SERVER_NAME: 'CHANGEME.com'
+    LETSENCRYPT: 'true'
+  volumes:
+    - ./nginx/default.crt:/srv/config/fullchain.pem
+    - ./nginx/default.key:/srv/config/privkey.pem
+  volumes_from: 
+    - letsencrypt
+    - php
+  ports:
+    - '80:80'
+    - '443:443'
+
+php:
+  build: ./php
+  volumes:
+    - /php
+    - /srv/htdocs
+  volumes_from:
+    - mysql-socket
+    - pydio-data
+
+mysql:
+  container_name: mysql
+  image: mariadb:latest
+  environment:
+    MYSQL_ROOT_PASSWORD: 'CHANGEME'
+    MYSQL_DATABASE: 'pydio'
+    MYSQL_USER: 'pydio'
+    MYSQL_PASSWORD: 'CHANGEME'
+  expose: 
+    - '3306'
+  volumes_from:
+    - mysql-socket
+  volumes:
+    - ./persistent/mysql:/var/lib/mysql
+
+mysql-socket:
+  image: busybox
+  volumes:
+    - /run/mysqld
+
+pydio-data:
+  image: busybox
+  volumes:
+    - ./persistent/data:/pydio-data
+
+# letsencrypt:
+#   container_name: letsencrypt
+#   image: busybox
+
+letsencrypt:
+  container_name: letsencrypt
+  build: ./config/letsencrypt
+  volumes:
+      - ./persistent/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt
+      - /srv/letsencrypt-webrootauth
+  command: root certonly --email CHANGEME@gmail.com -d CHANGEME.com -d www.CHANGEME.com --renew-by-default -a webroot --webroot-path /srv/letsencrypt-webrootauth --text --agree-tos --agree-dev-preview --server https://acme-v01.api.letsencrypt.org/directory
