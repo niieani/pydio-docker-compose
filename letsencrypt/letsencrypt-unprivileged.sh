@@ -19,3 +19,8 @@ if [[ -z $lastRun || $(($lastRun > $interval)) -gt 0 ]]; then
 else
   echo "Skipping LetsEncrypt since the certificate should still be valid"
 fi
+
+# TODO
+# letsencrypt  | date: /etc/letsencrypt/live/*/cert.pem: No such file or directory
+# letsencrypt  | /opt/letsencrypt/letsencrypt-unprivileged.sh: line 4: 1456416859 -  : syntax error: operand expected (error token is "-
+#  ")

@@ -20,7 +20,7 @@ php:
     - /php
     - /srv/www
   volumes_from:
-    - mysql-socket
+    - mysql
     - pydio-data
 
 mysql:
