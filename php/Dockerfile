@@ -34,9 +34,9 @@ RUN { \
       echo php_admin_value[upload_max_filesize] = 2G ;\
       echo php_admin_value[post_max_size] = 2G ;\
       echo php_admin_value[session.save_path] = /tmp ;\
-      echo php_admin_value[pdo_mysql.default_socket] = /run/mysqld/mysqld.sock \
-      echo php_admin_value[mysql.default_socket] = /run/mysqld/mysqld.sock \
-      echo php_admin_value[mysqli.default_socket] = /run/mysqld/mysqld.sock \
+      echo php_admin_value[pdo_mysql.default_socket] = /run/mysqld/mysqld.sock ;\
+      echo php_admin_value[mysql.default_socket] = /run/mysqld/mysqld.sock ;\
+      echo php_admin_value[mysqli.default_socket] = /run/mysqld/mysqld.sock ;\
     } | tee /usr/local/etc/php-fpm.d/zz-docker.conf
 
 ###########################
