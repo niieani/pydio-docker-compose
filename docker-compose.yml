@@ -54,7 +54,7 @@ pydio-data:
 
 letsencrypt:
   container_name: letsencrypt
-  build: ./config/letsencrypt
+  build: ./letsencrypt
   volumes:
       - ./persistent/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt
