@@ -8,6 +8,7 @@ Properly dockerized Pydio on the latest stack: Nginx + HTTP2, PHP 7, MariaDB, Le
 2. Edit instances of `CHANGEME` in the docker-compose.yml file to your liking
 3. Run with `docker-compose up -d`.
 4. If you get any permission problems, run `chown -R 33:33 ./persistent/data` 
+5. When installing, use mysqli driver, not mysql (it's an option during installation)
 
 Note: If you don't use LetsEncrypt, set LETSENCRYPT to false in the `docker-compose.yml` file and remember to replace `default.crt` and `default.key` in ./nginx directory!
 
