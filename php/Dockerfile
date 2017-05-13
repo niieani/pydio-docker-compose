@@ -39,24 +39,6 @@ RUN { \
       echo php_admin_value[mysqli.default_socket] = /run/mysqld/mysqld.sock ;\
     } | tee /usr/local/etc/php-fpm.d/zz-docker.conf
 
-###########################
-# Pydio
-ARG PYDIO_VERSION=6.2.2
-WORKDIR /srv
-RUN wget http://downloads.sourceforge.net/project/ajaxplorer/pydio/stable-channel/${PYDIO_VERSION}/pydio-core-${PYDIO_VERSION}.tar.gz && \
-    tar -zxf pydio-core-${PYDIO_VERSION}.tar.gz
-RUN mv pydio-core-${PYDIO_VERSION} www && \
-    mkdir /pydio-data && \
-    mv /srv/www/data/files /pydio-data/files && \
-    mv /srv/www/data/personal /pydio-data/personal && \
-    mv /srv/www/data/logs /pydio-data/logs && \
-    ln -s /pydio-data/files /srv/www/data/files && \
-    ln -s /pydio-data/personal /srv/www/data/personal && \
-    ln -s /pydio-data/logs /srv/www/data/logs && \
-    chown -R www-data:www-data /srv/www /pydio-data
-
-VOLUME /pydio-data
-
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -67,14 +49,5 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     echo 'LC_ALL=en_US.UTF-8' >> /etc/default/locale && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
-
-
-# RUN locale-gen en_US.UTF-8 && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
-
-# NOTE: make sure to chown your data folder to 33:33
-
-# RUN chmod -R 660 /srv/www
-# RUN chmod 777 /srv/www/pydio-core/data/files/
-# RUN chmod 777 /srv/www/pydio-core/data/personal/
 
 CMD php-fpm
