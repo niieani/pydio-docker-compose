@@ -1,62 +1,58 @@
-nginx:
-  container_name: nginx
-  build: ./nginx
-  environment: 
-    NGINX_SERVER_NAME: 'CHANGEME.com'
-    LETSENCRYPT: 'true'
-  volumes:
-    - ./nginx/default.crt:/srv/config/fullchain.pem
-    - ./nginx/default.key:/srv/config/privkey.pem
-  volumes_from: 
-    - letsencrypt
-    - php
-  ports:
-    - '80:80'
-    - '443:443'
+version: '2'
+services:
+  nginx:
+    image: nginx
+    command: sh -c "sed -ri 's/user[[:space:]]+nginx/user www-data www-data/g' /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
+    restart: always
+    volumes:
+      - ./data/certs/${DOMAIN}/fullchain.pem:/etc/nginx/fullchain.pem:ro
+      - ./data/certs/${DOMAIN}/privkey.pem:/etc/nginx/privkey.pem:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/letsencrypt.conf:/etc/nginx/letsencrypt.conf:ro
+      - ./data/logs/nginx:/var/log/nginx
+      - ./data/pydio:/srv/www
+    ports:
+      - "${HTTP_PORT}:80"
+      - "${HTTPS_PORT}:443"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
-php:
-  build: ./php
-  volumes:
-    - /php
-    - /srv/www
-  volumes_from:
-    - mysql
-    - pydio-data
+  php:
+    build: ./php
+    volumes:
+      - ./data/run/mysqld:/run/mysqld
+      - ./data/pydio:/srv/www
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
-mysql:
-  container_name: mysql
-  image: mariadb:latest
-  environment:
-    MYSQL_ROOT_PASSWORD: 'CHANGEME'
-    MYSQL_DATABASE: 'pydio'
-    MYSQL_USER: 'pydio'
-    MYSQL_PASSWORD: 'CHANGEME'
-  expose: 
-    - '3306'
-  volumes_from:
-    - mysql-data
-  volumes:
-    - /run/mysqld
+  mysql:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: 'pydio'
+      MYSQL_USER: 'pydio'
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./data/run/mysqld:/run/mysqld
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
-mysql-data:
-  image: busybox
-  volumes:
-    - ./persistent/mysql:/var/lib/mysql
-
-pydio-data:
-  image: busybox
-  volumes:
-    - ./persistent/data:/pydio-data
-
-# letsencrypt:
-#   container_name: letsencrypt
-#   image: busybox
-
-letsencrypt:
-  container_name: letsencrypt
-  build: ./letsencrypt
-  volumes:
-      - ./persistent/letsencrypt:/etc/letsencrypt
-      - /var/lib/letsencrypt
-      - /srv/letsencrypt-webrootauth
-  command: root certonly --email CHANGEME@gmail.com -d CHANGEME.com -d www.CHANGEME.com --renew-by-default -a webroot --webroot-path /srv/letsencrypt-webrootauth --text --agree-tos --agree-dev-preview --server https://acme-v01.api.letsencrypt.org/directory
+  letsencrypt:
+    build: letsencrypt
+    command: --domain ${DOMAIN}
+    environment: 
+      - CF_EMAIL=${CF_EMAIL}
+      - CF_KEY=${CF_KEY}
+      - CF_DEBUG=true
+      - CF_DNS_SERVERS='8.8.8.8 8.8.4.4'
+    volumes: 
+      - ./data/certs:/dehydrated/certs
+      - ./data/letsencrypt/accounts:/dehydrated/accounts
+      - ./letsencrypt/config:/dehydrated/config:ro
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
