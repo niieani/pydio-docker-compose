@@ -45,7 +45,7 @@ services:
 
   letsencrypt:
     build: letsencrypt
-    command: --domain ${DOMAIN}
+    command: "--domain ${DOMAIN}"
     environment: 
       - CF_EMAIL=${CF_EMAIL}
       - CF_KEY=${CF_KEY}
