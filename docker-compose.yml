@@ -11,6 +11,7 @@ services:
       - ./nginx/letsencrypt.conf:/etc/nginx/letsencrypt.conf:ro
       - ./data/logs/nginx:/var/log/nginx
       - ./data/pydio:/srv/www
+      - ./data/php:/php
     ports:
       - "${HTTP_PORT}:80"
       - "${HTTPS_PORT}:443"
@@ -23,6 +24,7 @@ services:
     volumes:
       - ./data/run/mysqld:/run/mysqld
       - ./data/pydio:/srv/www
+      - ./data/php:/php
     dns:
       - 8.8.8.8
       - 8.8.4.4
