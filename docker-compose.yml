@@ -45,7 +45,6 @@ services:
 
   letsencrypt:
     build: letsencrypt
-    command: "--domain ${DOMAIN}"
     environment: 
       - CF_EMAIL=${CF_EMAIL}
       - CF_KEY=${CF_KEY}
@@ -55,6 +54,7 @@ services:
       - ./data/certs:/dehydrated/certs
       - ./data/letsencrypt/accounts:/dehydrated/accounts
       - ./letsencrypt/config:/dehydrated/config:ro
+      - ./letsencrypt/domains.txt:/dehydrated/domains.txt:ro
     dns:
       - 8.8.8.8
       - 8.8.4.4
