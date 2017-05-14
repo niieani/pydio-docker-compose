@@ -3,7 +3,7 @@ http://0.0.0.0:8090 {
         pre {
             if {>Cookie} has "AjaXplorer"
             type request
-            url http://nginx:880/?get_action=keystore_generate_auth_token&device=websocket
+            url http://nginx:880?get_action=keystore_generate_auth_token&device=websocket
             cookie AjaXplorer
             out token
         }
@@ -30,7 +30,7 @@ http://0.0.0.0:8090 {
         pre {
             if {query} has "minisite_session"
             type request
-            url http://nginx:880/?get_action=keystore_generate_auth_token&device=upload
+            url http://nginx:880?get_action=keystore_generate_auth_token&device=upload
             query minisite_session
             cookie AjaXplorer_Shared
             out token
@@ -39,7 +39,7 @@ http://0.0.0.0:8090 {
             if {query} not_has "minisite_session"
             if {>Cookie} has "AjaXplorer="
             type request
-            url http://nginx:880/?get_action=keystore_generate_auth_token&device=upload
+            url http://nginx:880?get_action=keystore_generate_auth_token&device=upload
             cookie AjaXplorer
             out token
         }
