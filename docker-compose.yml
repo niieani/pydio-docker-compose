@@ -37,6 +37,8 @@ services:
     build: ./pydio-booster
     volumes:
       - ./data/pydio:/srv/www
+      - ./data/certs/${DOMAIN}/fullchain.pem:/srv/certs/fullchain.pem:ro
+      - ./data/certs/${DOMAIN}/privkey.pem:/srv/certs/privkey.pem:ro
     environment:
       - SCHEMA=https
       - PYDIO_HOSTNAME=${DOMAIN}
