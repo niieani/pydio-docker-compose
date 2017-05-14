@@ -1,6 +1,6 @@
 {
     "scheduler": {
-        "host": "$SCHEMA:\/\/$PYDIO_HOSTNAME",
+        "host": "$SCHEMA:\/\/$PYDIO_HOSTNAME:$PYDIO_PORT",
         "tokenP": "$TOKENP",
         "tokenS": "$TOKENS",
         "minutes": 2
