@@ -5,39 +5,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
+        libicu-dev \
         fontconfig-config fonts-dejavu-core wget locales \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt exif \
+    && docker-php-ext-install -j$(nproc) iconv mcrypt exif opcache \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
-
-RUN docker-php-ext-install -j$(nproc) mysqli pdo_mysql
-# php-pear #
+    && pecl install intl \
+    && pecl install apcu \
+    && docker-php-ext-install -j$(nproc) gd intl apcu mysqli pdo_mysql
 
 RUN mkdir /php && chown www-data:www-data /php && chmod 770 /php
-
-# echo listen = [::]:9000 \
-RUN { \
-      echo [global] ;\
-      echo daemonize = no ;\
-      echo ;\
-      echo [www] ;\
-      echo listen = /php/php.sock ;\
-      echo listen.owner = www-data ;\
-      echo listen.group = www-data ;\
-      echo listen.mode = 0660 ;\
-      echo slowlog = /proc/self/fd/2 ;\
-      echo request_slowlog_timeout = 10s ;\
-      echo security.limit_extensions = .php ;\
-      echo rlimit_files = 10240 ;\
-      echo php_value[output_buffering] = Off ;\
-      echo php_admin_value[cgi.fix_pathinfo] = 0 ;\
-      echo php_admin_value[upload_max_filesize] = 2G ;\
-      echo php_admin_value[post_max_size] = 2G ;\
-      echo php_admin_value[session.save_path] = /tmp ;\
-      echo php_admin_value[pdo_mysql.default_socket] = /run/mysqld/mysqld.sock ;\
-      echo php_admin_value[mysql.default_socket] = /run/mysqld/mysqld.sock ;\
-      echo php_admin_value[mysqli.default_socket] = /run/mysqld/mysqld.sock ;\
-    } | tee /usr/local/etc/php-fpm.d/zz-docker.conf
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
