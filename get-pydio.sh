@@ -14,4 +14,4 @@ rm pydio-core-${PYDIO_VERSION}.tar.gz
 mkdir -p data/run/mysqld
 chmod 777 data/run/mysqld
 
-# get initial certs before first run
+# remember to get initial certs before first run
