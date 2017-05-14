@@ -10,6 +10,7 @@ WORKDIR /srv
 
 ADD https://download.pydio.com/pub/booster/develop/linux_amd64/pydio /srv/pydio-booster
 ADD *.template /srv/
+ADD run.sh /srv/
 
 RUN chmod +x pydio-booster \
  && chown -R 33:33 /srv
