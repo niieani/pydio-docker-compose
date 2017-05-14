@@ -10,4 +10,8 @@ mv pydio-core-${PYDIO_VERSION} data/pydio && \
 chown -R www-data:www-data data/pydio
 rm pydio-core-${PYDIO_VERSION}.tar.gz
 
+# mysqld
+mkdir -p data/run/mysqld
+chmod 777 data/run/mysqld
+
 # get initial certs before first run

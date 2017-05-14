@@ -25,6 +25,7 @@ services:
       - ./data/run/mysqld:/run/mysqld
       - ./data/pydio:/srv/www
       - ./data/php:/php
+      - ./php/docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
     dns:
       - 8.8.8.8
       - 8.8.4.4
@@ -49,8 +50,6 @@ services:
       - CF_EMAIL=${CF_EMAIL}
       - CF_KEY=${CF_KEY}
       - CF_DEBUG=true
-      # Use eva and matt CloudFlare DNS servers
-      - CF_DNS_SERVERS='173.245.58.114 173.245.59.131'
       # Base directory for account key, generated certificates and list of domains (default: $SCRIPTDIR -- uses config directory if undefined)
       - BASEDIR="/dehydrated"
       # Minimum days before expiration to automatically renew certificate (default: 30)
@@ -60,6 +59,8 @@ services:
       # Path to certificate authority (default: https://acme-v01.api.letsencrypt.org/directory)
       #- CA="https://acme-v01.api.letsencrypt.org/directory"
       #- CA="https://acme-staging.api.letsencrypt.org/directory"
+      # Use eva and matt CloudFlare DNS servers
+      # - CF_DNS_SERVERS='173.245.58.114 173.245.59.131'
     volumes: 
       - ./data/certs:/dehydrated/certs
       - ./data/letsencrypt/accounts:/dehydrated/accounts
