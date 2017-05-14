@@ -6,9 +6,7 @@ RUN apk add --no-cache --update libintl bash \
  && cp /usr/bin/envsubst /usr/local/bin/envsubst \
  && apk del build_deps
 
-RUN adduser -D -u 33 www-data
-
-USER www-data
+USER 33
 
 WORKDIR /srv
 
