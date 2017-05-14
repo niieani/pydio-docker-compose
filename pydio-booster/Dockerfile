@@ -8,11 +8,12 @@ RUN apk add --no-cache --update libintl bash \
 
 WORKDIR /srv
 
-ADD https://download.pydio.com/pub/booster/develop/linux_amd64/pydio /srv/pydio-booster
+ADD https://download.pydio.com/pub/booster/develop/linux_amd64/pydio /srv/
 ADD *.template /srv/
 ADD run.sh /srv/
 
-RUN chmod +x pydio-booster \
+RUN mv pydio pydio-booster \
+ && chmod +x pydio-booster \
  && chown -R 33:33 /srv
 
 USER 33
