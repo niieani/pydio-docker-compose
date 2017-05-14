@@ -3,13 +3,13 @@ http://0.0.0.0:8090 {
         pre {
             if {>Cookie} has "AjaXplorer"
             type request
-            url $SCHEMA://$PYDIO_HOSTNAME:$PYDIO_PORT?get_action=keystore_generate_auth_token&device=websocket
+            url http://nginx:880/?get_action=keystore_generate_auth_token&device=websocket
             cookie AjaXplorer
             out token
         }
         pre {
             type request
-            url $SCHEMA://$PYDIO_HOSTNAME:$PYDIO_PORT/api/pydio/ws_authenticate?key=$TOKENP:$TOKENS
+            url http://nginx:880/api/pydio/ws_authenticate?key=$TOKENP:$TOKENS
             query auth_hash
             query auth_token
             out user
@@ -30,7 +30,7 @@ http://0.0.0.0:8090 {
         pre {
             if {query} has "minisite_session"
             type request
-            url $SCHEMA://$PYDIO_HOSTNAME:$PYDIO_PORT?get_action=keystore_generate_auth_token&device=upload
+            url http://nginx:880/?get_action=keystore_generate_auth_token&device=upload
             query minisite_session
             cookie AjaXplorer_Shared
             out token
@@ -39,13 +39,13 @@ http://0.0.0.0:8090 {
             if {query} not_has "minisite_session"
             if {>Cookie} has "AjaXplorer="
             type request
-            url $SCHEMA://$PYDIO_HOSTNAME:$PYDIO_PORT?get_action=keystore_generate_auth_token&device=upload
+            url http://nginx:880/?get_action=keystore_generate_auth_token&device=upload
             cookie AjaXplorer
             out token
         }
         pre {
             type request
-            url $SCHEMA://$PYDIO_HOSTNAME:$PYDIO_PORT/api/{repo}/upload/put/{nodedir}?xhr_uploader=true
+            url http://nginx:880/api/{repo}/upload/put/{nodedir}?xhr_uploader=true
             header X-File-Direct-Upload request-options
             header X-Pydio-Admin-Auth $TOKENP:$TOKENS
             header X-File-Name {nodename}
@@ -54,7 +54,7 @@ http://0.0.0.0:8090 {
         }
         post {
             type request
-            url $SCHEMA://$PYDIO_HOSTNAME:$PYDIO_PORT/api/{repo}/upload/put/{nodedir}?xhr_uploader=true
+            url http://nginx:880/api/{repo}/upload/put/{nodedir}?xhr_uploader=true
             header X-File-Direct-Upload upload-finished
             header X-Pydio-Admin-Auth $TOKENP:$TOKENS
             header X-File-Name {nodename}
