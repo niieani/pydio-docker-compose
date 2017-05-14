@@ -6,7 +6,7 @@ RUN apk add --no-cache --update libintl bash \
  && cp /usr/bin/envsubst /usr/local/bin/envsubst \
  && apk del build_deps
 
-RUN useradd --shell /bin/bash -u 33 -o -c "" -U -m www-data
+RUN adduser -D -u 33 www-data
 
 USER www-data
 
