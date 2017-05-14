@@ -2,7 +2,7 @@ FROM ubuntu
 
 WORKDIR /srv
 
-RUN apt-get install -y --no-install-recommends gettext-base
+RUN apt-get install -y --no-install-recommends gettext
 
 ADD https://download.pydio.com/pub/booster/develop/linux_amd64/pydio /srv/
 ADD *.template /srv/
