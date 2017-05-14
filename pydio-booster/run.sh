@@ -5,6 +5,6 @@ export TOKENP=${APIKEY##*:}
 export TOKENS=${APIKEY%%:*}
 
 envsubst < pydiocaddy.template > pydiocaddy
-envsubst < pydioconf.template > pydioconf
+envsubst < pydioconf.template > Caddyfile
 
 exec "$@"
