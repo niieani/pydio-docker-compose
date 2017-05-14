@@ -41,8 +41,8 @@ services:
       - SCHEMA=https
       - PYDIO_HOSTNAME=${DOMAIN}
       - PYDIO_PORT=${HTTPS_PORT}
-    # ports:
-    #   - "${SOCKET_PORT}:8090"
+    ports:
+      - "${SOCKET_PORT}:8090"
     dns:
       - 8.8.8.8
       - 8.8.4.4
