@@ -15,3 +15,11 @@ mkdir -p data/run/mysqld
 chmod 777 data/run/mysqld
 
 # remember to get initial certs before first run
+
+function replace {
+  LC_ALL=C sed -i "s/$(echo $1 | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$(echo $2 | sed -e 's/[\/&]/\\&/g')/g" $3
+}
+
+# fix a bug in 7.0.4 uploader code:
+replace "this.configs.get" "configs.get" "data/pydio/plugins/uploader.html/js/build/UploaderModel.js"
+
