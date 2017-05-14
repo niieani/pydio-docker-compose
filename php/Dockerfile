@@ -7,11 +7,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libpng12-dev \
         libicu-dev \
         fontconfig-config fonts-dejavu-core wget locales \
+    && pecl channel-update pecl.php.net \
     && docker-php-ext-install -j$(nproc) iconv mcrypt exif opcache \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && pecl install intl \
-    && pecl install apcu \
-    && docker-php-ext-install -j$(nproc) gd intl apcu mysqli pdo_mysql
+    && docker-php-ext-install -j$(nproc) gd intl mysqli pdo_mysql
 
 RUN mkdir /php && chown www-data:www-data /php && chmod 770 /php
 
