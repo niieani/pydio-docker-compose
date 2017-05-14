@@ -1,5 +1,6 @@
-http://0.0.0.0:8090 {
-    pydiows /ws     {
+http://0.0.0.0:8040, https://0.0.0.0:8090 {
+    tls /srv/certs/fullchain.pem /srv/certs/privkey.pem
+    pydiows /ws {
         pre {
             if {>Cookie} has "AjaXplorer"
             type request
