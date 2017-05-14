@@ -17,4 +17,4 @@ RUN mv pydio pydio-booster \
 USER www-data
 
 EXPOSE 8090 4150
-CMD bash run.sh ./pydio-booster
+CMD bash run.sh ./pydio-booster -conf pydioconf
