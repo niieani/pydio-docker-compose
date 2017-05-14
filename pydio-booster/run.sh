@@ -7,4 +7,4 @@ export TOKENS=${APIKEY%%:*}
 envsubst < pydiocaddy.template > pydiocaddy
 envsubst < pydioconf.template > pydioconf
 
-exec ./pydio-booster -conf pydioconf
+exec "$@"
