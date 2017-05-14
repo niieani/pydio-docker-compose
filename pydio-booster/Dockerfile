@@ -1,10 +1,4 @@
-FROM alpine
-
-# install bash & envsubst
-RUN apk add --no-cache --update libintl bash \
- && apk add --no-cache --virtual build_deps gettext \
- && cp /usr/bin/envsubst /usr/local/bin/envsubst \
- && apk del build_deps
+FROM ubuntu
 
 WORKDIR /srv
 
@@ -16,7 +10,7 @@ RUN mv pydio pydio-booster \
  && chmod +x pydio-booster \
  && chown -R 33:33 /srv
 
-USER 33
+USER www-data
 
 EXPOSE 8090 4150
 CMD bash run.sh
