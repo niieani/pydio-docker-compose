@@ -50,10 +50,18 @@ services:
       - CF_KEY=${CF_KEY}
       - CF_DEBUG=true
       - CF_DNS_SERVERS='8.8.8.8 8.8.4.4'
+      # Base directory for account key, generated certificates and list of domains (default: $SCRIPTDIR -- uses config directory if undefined)
+      - BASEDIR="/dehydrated"
+      # Minimum days before expiration to automatically renew certificate (default: 30)
+      - RENEW_DAYS="30"
+      # E-mail to use during the registration (default: <unset>)
+      - CONTACT_EMAIL=${EMAIL}
+      # Path to certificate authority (default: https://acme-v01.api.letsencrypt.org/directory)
+      #- CA="https://acme-v01.api.letsencrypt.org/directory"
+      #- CA="https://acme-staging.api.letsencrypt.org/directory"
     volumes: 
       - ./data/certs:/dehydrated/certs
       - ./data/letsencrypt/accounts:/dehydrated/accounts
-      - ./letsencrypt/config:/dehydrated/config:ro
       - ./letsencrypt/domains.txt:/dehydrated/domains.txt:ro
     dns:
       - 8.8.8.8
