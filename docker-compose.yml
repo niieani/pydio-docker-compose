@@ -64,6 +64,3 @@ services:
       - ./data/certs:/dehydrated/certs
       - ./data/letsencrypt/accounts:/dehydrated/accounts
       - ./letsencrypt/domains.txt:/dehydrated/domains.txt:ro
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
