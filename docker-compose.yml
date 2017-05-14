@@ -49,7 +49,8 @@ services:
       - CF_EMAIL=${CF_EMAIL}
       - CF_KEY=${CF_KEY}
       - CF_DEBUG=true
-      - CF_DNS_SERVERS='8.8.8.8 8.8.4.4'
+      # Use eva and matt CloudFlare DNS servers
+      - CF_DNS_SERVERS='173.245.58.114 173.245.59.131'
       # Base directory for account key, generated certificates and list of domains (default: $SCRIPTDIR -- uses config directory if undefined)
       - BASEDIR="/dehydrated"
       # Minimum days before expiration to automatically renew certificate (default: 30)
