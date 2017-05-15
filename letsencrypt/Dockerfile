@@ -14,4 +14,6 @@ WORKDIR /dehydrated
 VOLUME /dehydrated/certs
 VOLUME /dehydrated/accounts
 
+USER 33
+
 ENTRYPOINT ./dehydrated --cron --challenge dns-01 --accept-terms --ipv4 --hook 'hooks/cloudflare/hook.py'
