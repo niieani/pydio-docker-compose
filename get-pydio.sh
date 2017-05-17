@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # get Pydio source
-PYDIO_VERSION=7.0.4
+PYDIO_VERSION=8.0.0
 
 wget https://download.pydio.com/pub/core/archives/pydio-core-${PYDIO_VERSION}.tar.gz && \
 tar -zxf pydio-core-${PYDIO_VERSION}.tar.gz
@@ -21,5 +21,5 @@ function replace {
 }
 
 # fix a bug in 7.0.4 uploader code:
-replace "this.configs.get" "configs.get" "data/pydio/plugins/uploader.html/js/build/UploaderModel.js"
+# replace "this.configs.get" "configs.get" "data/pydio/plugins/uploader.html/js/build/UploaderModel.js"
 
