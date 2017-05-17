@@ -4,8 +4,8 @@ WORKDIR /srv
 
 RUN apt-get update && apt-get install -y --no-install-recommends gettext-base
 
-# can be 'release/1.0.2'
-ARG version=develop
+# can be 'release/1.2.0' or 'develop'
+ARG version=release/1.2.0
 ADD https://download.pydio.com/pub/booster/${version}/linux_amd64/pydio /srv/
 ADD *.template /srv/
 ADD run.sh /srv/
